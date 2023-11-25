@@ -1,7 +1,7 @@
 # Project
 
 ## Tech stack
-PHP 8.2, laravel 10, docker
+PHP 8.2, Laravel 10, docker
 
 ## Setup
 * Copy `.env.example` to `.env`;
@@ -20,17 +20,18 @@ URL table fields:
 - id
 - uuid
 - user_id
+- title
 - long_url
 - short_url
-- expires_at
+- expires_at (nullable)
 - timestamps
 - deleted_at (soft delete)
 
 # What is not implemented
-* analytics could be added as feature: it could be on additional field to count redirects. Or new db analytics table with count of redirects, 
+* analytics could be added as feature: it could be on additional field to count redirects. Or new db analytics table with count of redirects, ...
+* Code structure is used as "Laravel default' by placing classes into default Laravel folders.
 
 # TODO
-* migrations of url table
 * routes
 * validations
 * controller
@@ -38,3 +39,4 @@ URL table fields:
 * resources
 
 ## Done
+* migrations of url table
