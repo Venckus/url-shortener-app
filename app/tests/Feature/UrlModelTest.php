@@ -38,12 +38,12 @@ class UrlModelTest extends TestCase
             'without expires_at' => [[
                 'title' => 'Google random path',
                 'long_url' => 'https://www.google.com/random/path',
-                'short_url' => 'https://my.random.sh.ort/',
+                'short_code' => 'https://my.random.sh.ort/',
             ]],
             'with expires_at' => [[
                 'title' => 'Google random path',
                 'long_url' => 'https://www.google.com/random/path',
-                'short_url' => 'https://my.random.sh.ort/',
+                'short_code' => 'https://my.random.sh.ort/',
                 'expires_at' => Carbon::create(year: 2025),
             ]],
         ];

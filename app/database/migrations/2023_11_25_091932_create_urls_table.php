@@ -15,14 +15,14 @@ return new class extends Migration
             $table->id();
             $table->foreignId('user_id')->constrained()->cascadeOnDelete();
             $table->string('title');
-            $table->string('short_url', 50);
+            $table->string('short_code', 50);
             $table->string('long_url', 255);
             $table->softDeletes();
             $table->dateTime('expires_at')->nullable();
             $table->timestamps();
 
-            $table->index('short_url');
-            $table->unique(['short_url', 'long_url']);
+            $table->index('short_code');
+            $table->unique(['short_code', 'long_url']);
         });
     }
 

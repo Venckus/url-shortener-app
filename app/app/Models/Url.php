@@ -7,28 +7,36 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
+
 class Url extends Model
 {
     use HasFactory;
     use SoftDeletes;
 
+    public const USER_ID = 'user_id';
+    public const TITLE = 'title';
+    public const URL = 'url';
+    public const LONG_URL = 'long_url';
+    public const SHORT_CODE = 'short_code';
+    public const EXPIRES_AT = 'expires_at';
+
     /**
-     * @var string[][] $fillable
+     * @var string[] $fillable
      */
     protected $fillable = [
-        'user_id',
-        'title',
-        'url',
-        'long_url',
-        'short_url',
-        'expires_at',
+        self::USER_ID,
+        self::TITLE,
+        self::URL,
+        self::LONG_URL,
+        self::SHORT_CODE,
+        self::EXPIRES_AT,
     ];
 
     /**
-     * @var string[] $dates
+     * @var string[][] $dates
      */
     protected $casts = [
-        'expires_at' => 'datetime',
+        self::EXPIRES_AT => 'datetime',
     ];
 
     public function user(): BelongsTo
