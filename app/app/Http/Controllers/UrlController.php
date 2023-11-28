@@ -3,22 +3,39 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\UrlStoreRequest;
+use App\Http\Requests\UrlUpdateRequest;
 use App\Http\Resources\UrlResource;
+use App\Models\Url;
+use App\Models\User;
 use App\Services\UrlShortenService;
-use Illuminate\Http\Request;
+use Exception;
+use Illuminate\Http\Resources\Json\JsonResource;
 
 class UrlController extends Controller
 {
-    public function store(UrlStoreRequest $request)
-    {
-        $shortenUrlService = new UrlShortenService($request->urlStoreData);
-
-        return new UrlResource($shortenUrlService->store());
+    public function __construct(
+        private UrlShortenService $urlShortenService
+    ) {  
     }
 
-    public function update(Request $request, $id)
+    public function store(UrlStoreRequest $request): JsonResource
     {
-        //
+        $this->urlShortenService->setData($request->urlStoreData);
+
+        return new UrlResource($this->urlShortenService->store());
+    }
+
+    public function update(UrlUpdateRequest $request, Url $url): JsonResource
+    {
+        $this->urlShortenService->setData($request->urlUpdateData);
+
+        try {
+            $url = $this->urlShortenService->update($url);
+        } catch (Exception $e) {
+            response()->json(['message' => $e->getMessage()], 400);
+        }
+
+        return new UrlResource($url);
     }
 
     public function destroy($id)

@@ -2,24 +2,36 @@
 
 namespace App\Services;
 
-use App\Http\DTO\UrlStoreData;
+use App\Http\DTO\UrlDataInterface;
 use App\Models\Url;
+use App\Models\User;
 
 class UrlShortenService
 {
-    public function __construct(
-        private readonly UrlStoreData $storeUrlData,
-    ) {
+    private UrlDataInterface $urlData;
+
+    public function setData(UrlDataInterface $urlData): self
+    {
+        $this->urlData = $urlData;
+
+         return $this;
     }
 
     public function store(): Url
     {
-        if (!$this->storeUrlData->hasShortCode()) {
+        if (!$this->urlData->hasShortCode()) {
             $shortCode = $this->generateShortCode();
-            $this->storeUrlData->setShortCode($shortCode);
+            $this->urlData->setShortCode($shortCode);
         }
 
-        return Url::create($this->storeUrlData->toArray());
+        return Url::create($this->urlData->toArray());
+    }
+
+    public function update(Url $url): Url
+    {
+        $url->update($this->urlData->toArray());
+
+        return $url->refresh();
     }
 
     private function generateShortCode(int $length = 24): string

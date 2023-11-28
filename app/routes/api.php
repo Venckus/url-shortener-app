@@ -17,5 +17,3 @@ use Illuminate\Support\Facades\Route;
 
 Route::apiResource('urls', UrlController::class)
     ->only(['store', 'update', 'destroy']);
-
-Route::get('/urls/{urls:short_code}', [UrlController::class, 'redirect']);
