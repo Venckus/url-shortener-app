@@ -9,7 +9,9 @@ use App\Models\Url;
 use App\Models\User;
 use App\Services\UrlShortenService;
 use Exception;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Resources\Json\JsonResource;
+use Symfony\Component\HttpFoundation\Response;
 
 class UrlController extends Controller
 {
@@ -38,8 +40,10 @@ class UrlController extends Controller
         return new UrlResource($url);
     }
 
-    public function destroy($id)
+    public function destroy(Url $url): JsonResponse
     {
-        //
+        $url->delete();
+
+        return response()->json(null, Response::HTTP_NO_CONTENT);
     }
 }

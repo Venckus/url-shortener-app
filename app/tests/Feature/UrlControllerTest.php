@@ -169,4 +169,36 @@ class UrlControllerTest extends TestCase
 
         $response->assertStatus(422);
     }
+
+    public function testShouldDestroyUrl(): void
+    {
+        $user = User::factory()->create();
+
+        $url = Url::create([
+            'user_id' => $user->id,
+            'title' => 'My Awesome Url',
+            'long_url' => 'https://www.super-long.com/awesome/url/g871t2396',
+            'short_code' => 'myawesomeurl',
+        ]);
+
+        $response = $this->json(
+            method: 'DELETE',
+            uri: "/api/urls/{$url->id}",
+        );
+
+        $response->assertStatus(204);
+
+        $this->assertDatabaseCount(
+            table: 'urls',
+            count: 1,
+        );
+        $this->assertDatabaseHas(
+            table: 'urls',
+            data: [
+                'id' => $url->id,
+            ]
+        );
+        $url->refresh();
+        $this->assertNotNull($url->deleted_at);
+    }
 }
