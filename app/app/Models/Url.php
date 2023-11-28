@@ -16,7 +16,6 @@ class Url extends Model
     public const ID = 'id';
     public const USER_ID = 'user_id';
     public const TITLE = 'title';
-    public const URL = 'url';
     public const LONG_URL = 'long_url';
     public const SHORT_CODE = 'short_code';
     public const EXPIRES_AT = 'expires_at';
@@ -27,7 +26,6 @@ class Url extends Model
     protected $fillable = [
         self::USER_ID,
         self::TITLE,
-        self::URL,
         self::LONG_URL,
         self::SHORT_CODE,
         self::EXPIRES_AT,

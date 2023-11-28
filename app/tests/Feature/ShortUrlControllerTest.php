@@ -7,7 +7,7 @@ use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
-class UrlControllerTest extends TestCase
+class ShortUrlControllerTest extends TestCase
 {
     use RefreshDatabase;
 
@@ -200,5 +200,30 @@ class UrlControllerTest extends TestCase
         );
         $url->refresh();
         $this->assertNotNull($url->deleted_at);
+    }
+
+    public function testShouldRedirectToLongUrl(): void
+    {
+        $user = User::factory()->create();
+
+        $url = Url::create([
+            'user_id' => $user->id,
+            'title' => 'My Awesome Url',
+            'long_url' => 'https://www.super-long.com/awesome/url/g871t2396',
+            'short_code' => 'myawesomeurl',
+        ]);
+
+        $response = $this->get("/{$url->short_code}");
+
+        $response->assertStatus(302);
+        $response->assertRedirect($url->long_url);
+    }
+
+    public function testShouldNotRedirectWhenInvalidShortCode(): void
+    {
+        $response = $this->get('/invalid-short-code');
+
+        $response->assertStatus(404);
+        $response->assertJson(['message' => 'Short Url not found']);
     }
 }

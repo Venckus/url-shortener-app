@@ -2,33 +2,33 @@
 
 namespace Tests\Feature;
 
-use App\Http\DTO\UrlStoreData;
-use App\Http\DTO\UrlUpdateData;
+use App\Http\DTO\ShortUrlStoreData;
+use App\Http\DTO\ShortUrlUpdateData;
 use App\Models\Url;
 use App\Models\User;
-use App\Services\UrlShortenService;
+use App\Services\ShortUrlShortenService;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
-class UrlShortenServiceTest extends TestCase
+class ShortUrlShortenServiceTest extends TestCase
 {
     use RefreshDatabase;
 
-    private UrlShortenService $urlShortenService;
+    private ShortUrlShortenService $urlShortenService;
 
 
     protected function setUp(): void
     {
         parent::setUp();
 
-        $this->urlShortenService = new UrlShortenService();
+        $this->urlShortenService = new ShortUrlShortenService();
     }
 
     public function testShouldGenerateShortCode(): void
     {
         $user = User::factory()->create();
 
-        $urlDTO = new UrlStoreData(
+        $urlDTO = new ShortUrlStoreData(
             userId: $user->id,
             title: 'My Awesome Url',
             longUrl: 'https://www.super-long.com/awesome/url/g871t2396',
@@ -47,7 +47,7 @@ class UrlShortenServiceTest extends TestCase
     {
         $user = User::factory()->create();
 
-        $urlDTO = new UrlStoreData(
+        $urlDTO = new ShortUrlStoreData(
             userId: $user->id,
             title: 'My Awesome Url',
             longUrl: 'https://www.super-long.com/awesome/url/g871t2396',
@@ -71,7 +71,7 @@ class UrlShortenServiceTest extends TestCase
     /**
      * @dataProvider newFieldsProvider
      */
-    public function testShouldUpdateUrl(UrlUpdateData $urlDTO, string $DTOparam, string $dbParam): void
+    public function testShouldUpdateUrl(ShortUrlUpdateData $urlDTO, string $DTOparam, string $dbParam): void
     {
         $user = User::factory()->create();
 
@@ -100,22 +100,22 @@ class UrlShortenServiceTest extends TestCase
     {
         return [
             'new title' => [
-                new UrlUpdateData(title: 'My new Url'),
+                new ShortUrlUpdateData(title: 'My new Url'),
                 'title',
                 'title',
             ],
             'new long_url' => [
-                new UrlUpdateData(longUrl: 'My new Url'),
+                new ShortUrlUpdateData(longUrl: 'My new Url'),
                 'longUrl',
                 'long_url',
             ],
             'new short_code' => [
-                new UrlUpdateData(shortCode: 'my-new-url'),
+                new ShortUrlUpdateData(shortCode: 'my-new-url'),
                 'shortCode',
                 'short_code',
             ],
             'new expires_at' => [
-                new UrlUpdateData(expiresAt: '2024-12-12T00:00:00.000000Z'),
+                new ShortUrlUpdateData(expiresAt: '2024-12-12T00:00:00.000000Z'),
                 'expiresAt',
                 'expires_at',
             ],

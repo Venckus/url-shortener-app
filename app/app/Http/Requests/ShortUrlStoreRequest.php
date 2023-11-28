@@ -2,13 +2,13 @@
 
 namespace App\Http\Requests;
 
-use App\Http\DTO\UrlStoreData;
+use App\Http\DTO\ShortUrlStoreData;
 use App\Models\Url;
 use Illuminate\Foundation\Http\FormRequest;
 
-class UrlStoreRequest extends FormRequest
+class ShortUrlStoreRequest extends FormRequest
 {
-    public UrlStoreData $urlStoreData;
+    public ShortUrlStoreData $urlStoreData;
 
     /**
      * Get the validation rules that apply to the request.
@@ -31,7 +31,7 @@ class UrlStoreRequest extends FormRequest
 
     public function passedValidation(): void
     {
-        $this->urlStoreData = new UrlStoreData(
+        $this->urlStoreData = new ShortUrlStoreData(
             userId: $this->get('user_id'),
             title: $this->get('title'),
             longUrl: $this->get('long_url'),

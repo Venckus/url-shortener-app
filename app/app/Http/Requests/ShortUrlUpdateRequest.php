@@ -2,15 +2,15 @@
 
 namespace App\Http\Requests;
 
-use App\Http\DTO\UrlUpdateData;
+use App\Http\DTO\ShortUrlUpdateData;
 use Illuminate\Database\Query\Builder;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Validation\Rule;
 
-class UrlUpdateRequest extends FormRequest
+class ShortUrlUpdateRequest extends FormRequest
 {
-    public UrlUpdateData $urlUpdateData;
+    public ShortUrlUpdateData $urlUpdateData;
 
 
     /**
@@ -33,7 +33,7 @@ class UrlUpdateRequest extends FormRequest
 
     public function passedValidation(): void
     {
-        $this->urlUpdateData = new UrlUpdateData(
+        $this->urlUpdateData = new ShortUrlUpdateData(
             title: $this->get('title'),
             longUrl: $this->get('long_url'),
             shortCode: $this->get('short_code'),

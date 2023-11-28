@@ -2,10 +2,10 @@
 
 namespace App\Http\DTO;
 
-use App\Http\DTO\UrlDataInterface;
+use App\Http\DTO\ShortUrlDataInterface;
 use App\Models\Url;
 
-class UrlStoreData implements UrlDataInterface
+class ShortUrlStoreData implements ShortUrlDataInterface
 {
     public function __construct(
         public readonly string $userId,

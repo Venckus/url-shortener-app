@@ -2,15 +2,14 @@
 
 namespace App\Services;
 
-use App\Http\DTO\UrlDataInterface;
+use App\Http\DTO\ShortUrlDataInterface;
 use App\Models\Url;
-use App\Models\User;
 
-class UrlShortenService
+class ShortUrlShortenService
 {
-    private UrlDataInterface $urlData;
+    private ShortUrlDataInterface $urlData;
 
-    public function setData(UrlDataInterface $urlData): self
+    public function setData(ShortUrlDataInterface $urlData): self
     {
         $this->urlData = $urlData;
 

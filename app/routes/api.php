@@ -1,6 +1,6 @@
 <?php
 
-use App\Http\Controllers\UrlController;
+use App\Http\Controllers\ShortUrlController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -15,5 +15,5 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::apiResource('urls', UrlController::class)
+Route::apiResource('urls', ShortUrlController::class)
     ->only(['store', 'update', 'destroy']);

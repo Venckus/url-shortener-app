@@ -2,11 +2,11 @@
 
 namespace App\Http\DTO;
 
-use App\Http\DTO\UrlDataInterface;
+use App\Http\DTO\ShortUrlDataInterface;
 use App\Models\Url;
 
 
-class UrlUpdateData implements UrlDataInterface
+class ShortUrlUpdateData implements ShortUrlDataInterface
 {
     public function __construct(
         public readonly ?string $title = null,
