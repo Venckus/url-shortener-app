@@ -26,6 +26,7 @@ class ShortUrlStoreRequest extends FormRequest
                 'max:50',
                 'unique:urls,short_code'
             ],
+            'expires_at' => ['date', 'after:now'],
         ];
     }
 
@@ -36,6 +37,7 @@ class ShortUrlStoreRequest extends FormRequest
             title: $this->get('title'),
             longUrl: $this->get('long_url'),
             shortCode: $this->get('short_code'),
+            expiresAt: $this->get('expires_at'),
         );
     }
 }

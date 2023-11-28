@@ -3,7 +3,7 @@
 namespace App\Http\DTO;
 
 use App\Http\DTO\ShortUrlDataInterface;
-use App\Models\Url;
+use Illuminate\Support\Str;
 
 
 class ShortUrlUpdateData implements ShortUrlDataInterface
@@ -23,17 +23,10 @@ class ShortUrlUpdateData implements ShortUrlDataInterface
     {
         $dataArray = [];
 
-        if (isset($this->title)) {
-            $dataArray[Url::TITLE] = $this->title;
-        }
-        if (isset($this->longUrl)) {
-            $dataArray[Url::LONG_URL] = $this->longUrl;
-        }
-        if (isset($this->shortCode)) {
-            $dataArray[Url::SHORT_CODE] = $this->shortCode;
-        }
-        if (isset($this->expiresAt)) {
-            $dataArray[Url::EXPIRES_AT] = $this->expiresAt;
+        foreach (get_object_vars($this) as $key => $value) {
+            if (isset($value)) {
+                $dataArray[Str::snake($key)] = $value;
+            }
         }
 
         return $dataArray;

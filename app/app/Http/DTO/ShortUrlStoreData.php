@@ -12,6 +12,7 @@ class ShortUrlStoreData implements ShortUrlDataInterface
         public readonly string $title,
         public readonly string $longUrl,
         private ?string $shortCode,
+        public readonly ?string $expiresAt,
     ) {
     }
 
@@ -36,5 +37,11 @@ class ShortUrlStoreData implements ShortUrlDataInterface
             Url::LONG_URL => $this->longUrl,
             Url::SHORT_CODE => $this->shortCode,
         ];
+
+        if (isset($this->expiresAt)) {
+            $array[ShortUrl::EXPIRES_AT] = $this->expiresAt;
+        }
+
+        return $array;
     }
 }

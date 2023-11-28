@@ -33,6 +33,7 @@ class ShortUrlShortenServiceTest extends TestCase
             title: 'My Awesome Url',
             longUrl: 'https://www.super-long.com/awesome/url/g871t2396',
             shortCode: null,
+            expiresAt: null,
         );
 
         $this->urlShortenService->setData($urlDTO);
@@ -52,6 +53,7 @@ class ShortUrlShortenServiceTest extends TestCase
             title: 'My Awesome Url',
             longUrl: 'https://www.super-long.com/awesome/url/g871t2396',
             shortCode: 'my-awesome-url',
+            expiresAt: null,
         );
 
         $this->urlShortenService->setData($urlDTO);

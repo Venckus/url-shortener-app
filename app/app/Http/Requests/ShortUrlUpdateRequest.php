@@ -3,10 +3,7 @@
 namespace App\Http\Requests;
 
 use App\Http\DTO\ShortUrlUpdateData;
-use Illuminate\Database\Query\Builder;
 use Illuminate\Foundation\Http\FormRequest;
-use Illuminate\Support\Facades\DB;
-use Illuminate\Validation\Rule;
 
 class ShortUrlUpdateRequest extends FormRequest
 {
@@ -28,6 +25,7 @@ class ShortUrlUpdateRequest extends FormRequest
                 'max:50',
                 'unique:urls,short_code'
             ],
+            'expires_at' => ['date', 'after:now'],
         ];
     }
 

@@ -1,42 +1,71 @@
-# Project
+# URL shortening app
 
-## Tech stack
-PHP 8.2, Laravel 10, docker
+## Introduction
+This project is a URL shortener service. It allows users to create short URLs from long ones, which can be useful for sharing links. The project is built using Laravel.
 
-## Setup
-* Copy `.env.example` to `.env`;
-* build docker containers `docker-compose up --build`
-* migrate database on first run 
+## Prerequisites
+- Docker, Docker compose
+- PHP 8.2
+- Laravel 10
+- PostGreSQL 13
 
-## Endpoints
-* URL Shortening: method POST, path `/api/url`
-* URL Update: method PATCH, path `/api/url/:url_id`
-* URL Delete: method DELETE, path `/api/url/:url_id`
-* URL Redirect: method GET, path `/:short_code`
+## Installation
+1. Clone the repository
+2. Copy `.env.example` to `.env`;
+3. build docker containers `docker-compose up --build`
+4. Run migrations with `php artisan migrate`
 
-## Data structure
-It is supposed, that each url has its `owner`. This way url should have one to one relationship with user.
-URL table fields:
-- id (uuid)
-- user_id
-- title
-- long_url
-- short_code
-- expires_at (nullable)
-- timestamps
-- deleted_at (soft delete)
+## Usage
+To create a short URL, send a POST request to `/urls` with the following parameters:
+- `title`: The title of the URL
+- `long_url`: The original, long URL
 
-# What is not implemented
-* Short URL code generator is simple without numbers and special characters only including `-`. Thus the validation for short URL code in *Request is setup accordingly.
-* User authentication is not implemented. Therefore, there is no validation for short URL ownership in the update and delete endpoints. Users could be identified by using tokens and the actual user model should be retrieved in *Request or Middleware and then used to validate if short URL belongs to user.
-* analytics could be added as feature: it could be on additional field to count redirects. Or new db analytics table with count of redirects, ...
-* Code structure is used as "Laravel default' by placing classes into default Laravel folders.
+## API Documentation
+### POST `/api/urls`
+Creates a new short URL.
+Request parameters:
+- `user_id`: string
+- `title`: string
+- `long_url`: string
+- `short_code`: string ([a-z] or `-`), max length 50
+- `expires_at` => string date after now
 
-# TODO
+### PATCH `/api/urls/:url_id`
+Updates a short URL by using `urls.id` (uuid).
+Request parameters:
+- `title`: string (optional)
+- `long_url`: string (optional)
+- `short_code`: string ([a-z] or `-`), max length 50 (optional)
+- `expires_at` => string date after now (optional)
 
-## Done
-* redirect endpoint with tests, naming improved
-* destroy endpoint with tests
-* update endpoint with tests, validation, service
-* store endpoint with tests, routes, validation, service
-* migrations of url table
+### DELETE `/api/urls/:url_id`
+Deletes a short URL by using `urls.id` (uuid).
+
+### GET /{shortCode}
+Redirects to the original URL associated with the given short code.
+
+## Database Schema
+The `urls` table has the following fields:
+- `id` (uuid)
+- `user_id` (foreign)
+- `title`
+- `long_url`
+- `short_code` (index)
+- `expires_at` (nullable)
+- `timestamps`
+- `deleted_at` (soft delete)
+
+## Testing
+Run tests with `php artisan test`.
+
+## Deployment
+Deployment instructions will vary depending on your hosting provider. Generally, you will need to:
+1. Clone the repository on your server
+2. Install dependencies with `composer install`
+3. Set up your environment variables in `.env`
+4. Run migrations with `php artisan migrate`
+
+## Future Improvements
+- Implement user authentication and validate short URL ownership in the update and delete endpoints.
+- Add analytics feature to count redirects.
+- Improve the short URL code generator to include numbers and special characters.

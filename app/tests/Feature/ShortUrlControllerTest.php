@@ -88,7 +88,7 @@ class ShortUrlControllerTest extends TestCase
         ];
     }
 
-    public function testShouldUpdateUrl(): void
+    public function testShouldUpdateShortCode(): void
     {
         $user = User::factory()->create();
 
@@ -122,17 +122,10 @@ class ShortUrlControllerTest extends TestCase
         );
     }
 
-    public function testShouldNotUpdateWhenInvalidUrlID(): void
+    public function testShouldNotUpdateWhenInvalidUrlId(): void
     {
         $user = User::factory()->create();
 
-        $url = Url::create([
-            'user_id' => $user->id,
-            'title' => 'My Awesome Url',
-            'long_url' => 'https://www.super-long.com/awesome/url/g871t2396',
-            'short_code' => 'myawesomeurl',
-        ]);
-        
         $response = $this->json(
             method: 'PATCH',
             uri: '/api/urls/invalid-url-id',
@@ -164,6 +157,28 @@ class ShortUrlControllerTest extends TestCase
                 'title' => 'New Url Title',
                 'long_url' => 'https://www.super-long.com/awesome/url/g871t2396',
                 'short_code' => 'myawesomeurl',
+            ],
+        );
+
+        $response->assertStatus(422);
+    }
+
+    public function testShouldNotUpdateWhenExpiresAtIsInThePast(): void
+    {
+        $user = User::factory()->create();
+
+        $url = Url::create([
+            'user_id' => $user->id,
+            'title' => 'My Awesome Url',
+            'long_url' => 'https://www.super-long.com/awesome/url/g871t2396',
+            'short_code' => 'myawesomeurl',
+        ]);
+
+        $response = $this->json(
+            method: 'PATCH',
+            uri: "/api/urls/{$url->id}",
+            data: [
+                'expires_at' => '2020-01-01 00:00:00',
             ],
         );
 
